@@ -11,3 +11,4 @@ idf_component_register(SRCS ${app_sources}
         # Embed the server root certificate into the final binary
         EMBED_TXTFILES ${project_dir}/ssl_cert/server_cert.pem
         )
+target_compile_options(${COMPONENT_LIB} PRIVATE  -Wno-format)

@@ -17,7 +17,6 @@ idf_component_register(SRCS ${srcs}
 // Open settings to set WiFi and other configurations for both examples:
 #include "settings.h"
 #include "esp_heap_caps.h"
-#include "esp_log.h"
 #include "esp_timer.h"
 #include "esp_types.h"
 #include "freertos/FreeRTOS.h"
@@ -28,7 +27,6 @@ idf_component_register(SRCS ${srcs}
 // WiFi related
 #include "esp_wifi.h"
 #include "esp_event.h"
-#include "esp_log.h"
 #include "nvs_flash.h"
 #include "lwip/err.h"
 #include "lwip/sys.h"
@@ -41,6 +39,7 @@ idf_component_register(SRCS ${srcs}
 #include <string.h>
 #include <math.h> // round + pow
 extern "C" {
+  #include "esp_log.h"
   #include "epd_driver.h"
   #include "epd_highlevel.h"
 }
@@ -249,7 +248,9 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
           ESP_LOGI("www-dw", "%d ms - download", time_download);
           ESP_LOGI("render", "%d ms - copying pix (JPEG_CPY_FRAMEBUFFER:%d)", time_render, JPEG_CPY_FRAMEBUFFER);
           // Refresh display
-         epd_hl_update_screen(&hl, MODE_GC16, 25);
+          int64_t time_update_screen = esp_timer_get_time();
+          epd_hl_update_screen(&hl, MODE_GC16, 25);
+          ESP_LOGI("hl", "%ld ms took epd_hl_update_screen", (esp_timer_get_time()-time_update_screen)/1000);
 
           ESP_LOGI("total", "%d ms - total time spent\n", time_download+time_decomp+time_render);
         } else {

@@ -313,8 +313,11 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
           time_download = (esp_timer_get_time()-startTime)/1000;
           ESP_LOGI("www-dw", "%d ms - download", time_download);
           // Refresh display
+          int64_t time_update_start = esp_timer_get_time();
           epd_hl_update_screen(&hl, MODE_GC16, 25);
-
+          int64_t time_update_end = esp_timer_get_time(); // (esp_timer_get_time()-time_update_screen)/1000
+          ESP_LOGI("hl", "s:%ld e:%ld ms took epd_hl_update_screen", time_update_start, time_update_end);
+          
           ESP_LOGI("total", "%d ms - total time spent\n", time_download+time_decomp+time_render);
         }
         break;
