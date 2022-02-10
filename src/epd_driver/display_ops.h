@@ -113,3 +113,13 @@ uint8_t IRAM_ATTR *epd_get_current_buffer();
  * this function blocks until transmission is done.
  */
 void IRAM_ATTR epd_switch_buffer();
+
+/**
+ * Setup I2S data lines
+ */
+void epd_i2s_lines_setup(uint32_t epd_row_width);
+
+/**
+ * Put lines down since in some boards lines as output leak consumption
+ */
+void epd_i2s_lines_down();

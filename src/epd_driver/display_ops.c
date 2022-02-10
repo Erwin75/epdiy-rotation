@@ -1,4 +1,5 @@
 #include "display_ops.h"
+#include "epd_driver.h"
 #include "esp_timer.h"
 #include "esp_log.h"
 #include "i2s_data_bus.h"
@@ -55,6 +56,32 @@ inline static void IRAM_ATTR push_cfg_bit(bool bit) {
 }
 #endif
 
+void epd_i2s_lines_setup(uint32_t epd_row_width) {
+  // Setup I2S
+  i2s_bus_config i2s_config;
+  // add an offset off dummy bytes to allow for enough timing headroom
+  i2s_config.epd_row_width = epd_row_width + 32;
+  i2s_config.clock = CKH;
+  i2s_config.start_pulse = STH;
+  i2s_config.data_0 = D0;
+  i2s_config.data_1 = D1;
+  i2s_config.data_2 = D2;
+  i2s_config.data_3 = D3;
+  i2s_config.data_4 = D4;
+  i2s_config.data_5 = D5;
+  i2s_config.data_6 = D6;
+  i2s_config.data_7 = D7;
+
+  i2s_bus_init(&i2s_config);
+}
+
+void epd_i2s_lines_down() {
+  gpio_num_t DATA_BUS[] = {D6, D7, D4, D5, D2, D3, D0, D1, STH, CKH};
+  for (uint8_t pin = 0; pin < 10; pin++) {
+    gpio_set_direction(DATA_BUS[pin], GPIO_MODE_INPUT);
+  }
+}
+
 void epd_base_init(uint32_t epd_row_width) {
 
 
@@ -94,29 +121,24 @@ void epd_base_init(uint32_t epd_row_width) {
 
   push_cfg(&config_reg);
 
-  // Setup I2S
-  i2s_bus_config i2s_config;
-  // add an offset off dummy bytes to allow for enough timing headroom
-  i2s_config.epd_row_width = epd_row_width + 32;
-  i2s_config.clock = CKH;
-  i2s_config.start_pulse = STH;
-  i2s_config.data_0 = D0;
-  i2s_config.data_1 = D1;
-  i2s_config.data_2 = D2;
-  i2s_config.data_3 = D3;
-  i2s_config.data_4 = D4;
-  i2s_config.data_5 = D5;
-  i2s_config.data_6 = D6;
-  i2s_config.data_7 = D7;
-
-  i2s_bus_init(&i2s_config);
+  epd_i2s_lines_setup(EPD_WIDTH);
 
   rmt_pulse_init(CKV);
 }
 
-void epd_poweron() { cfg_poweron(&config_reg);  }
+void epd_poweron() {
+  cfg_poweron(&config_reg);
+  #if defined(CONFIG_EPD_BOARD_REVISION_LILYGO_T5_47)
+  epd_i2s_lines_setup(EPD_WIDTH);
+  #endif
+}
 
-void epd_poweroff() { cfg_poweroff(&config_reg); }
+void epd_poweroff() {
+  cfg_poweroff(&config_reg);
+  #if defined(CONFIG_EPD_BOARD_REVISION_LILYGO_T5_47)
+  epd_i2s_lines_down();
+  #endif
+}
 
 void epd_base_deinit(){
   epd_poweroff();
