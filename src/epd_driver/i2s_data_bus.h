@@ -37,7 +37,17 @@ typedef struct {
  * Initialize the I2S data bus for communication
  * with a 8bit parallel display interface.
  */
-void i2s_bus_init(i2s_bus_config *cfg);
+void i2s_bus_init(i2s_bus_config *cfg, uint32_t epd_row_width);
+
+/**
+ * Attach I2S to gpio's
+ */
+void i2s_gpio_attach(i2s_bus_config *cfg);
+
+/**
+ * Detach I2S from gpio's
+ */
+void i2s_gpio_detach(i2s_bus_config *cfg);
 
 /**
  * Get the currently writable line buffer.
