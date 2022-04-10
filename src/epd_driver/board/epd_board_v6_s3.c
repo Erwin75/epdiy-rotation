@@ -1,9 +1,9 @@
 #include "epd_board.h"
 /**
- * @file epd_board_v6_s3.c
+ * @file epd_board_v6_s2.c
  * Do not forget that this is a different SOC, so do a:
  * idf.py fullclean             (In case you build it before on other target)
- * idf.py set-target esp32s3
+ * idf.py set-target esp32s2
  * 
  * If it get's stuck and won't change, as latest: delete the sdkconfig.default
  * Before building or it will fail
@@ -23,14 +23,14 @@ static int v6_wait_for_interrupt(int timeout) __attribute__((unused));
 #define CFG_SDA             GPIO_NUM_9
 
 #define EPDIY_I2C_PORT      I2C_NUM_0
-#define D7 GPIO_NUM_40
-#define D6 GPIO_NUM_39
-#define D5 GPIO_NUM_38
-#define D4 GPIO_NUM_37
-#define D3 GPIO_NUM_36
-#define D2 GPIO_NUM_35
-#define D1 GPIO_NUM_34
-#define D0 GPIO_NUM_33
+#define D7 GPIO_NUM_7
+#define D6 GPIO_NUM_6
+#define D5 GPIO_NUM_5
+#define D4 GPIO_NUM_4
+#define D3 GPIO_NUM_3
+#define D2 GPIO_NUM_2
+#define D1 GPIO_NUM_1
+#define D0 GPIO_NUM_0
 
 /* TPS65185 5 control lines */
 #define TPS_PWRGOOD       GPIO_NUM_46
@@ -40,8 +40,8 @@ static int v6_wait_for_interrupt(int timeout) __attribute__((unused));
 #define TPS_VCOM_CTRL     GPIO_NUM_10
 
 /* EPD Control Lines */
-#define CKV GPIO_NUM_41
-#define STH GPIO_NUM_42
+#define CKV GPIO_NUM_35
+#define STH GPIO_NUM_36
 #define EPD_STV  GPIO_NUM_15
 #define EPD_MODE GPIO_NUM_14
 #define EPD_OE   GPIO_NUM_13
@@ -280,7 +280,7 @@ static float epd_board_ambient_temperature() {
 }
 
 // Nicely made
-const EpdBoardDefinition epd_board_s2 = {
+const EpdBoardDefinition epd_board_s3 = {
   .init = epd_board_init,
   .deinit = epd_board_deinit,
   .set_ctrl = epd_board_set_ctrl,

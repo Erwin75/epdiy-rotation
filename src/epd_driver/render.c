@@ -246,6 +246,8 @@ void epd_init(enum EpdInitOptions options) {
   epd_set_board(&epd_board_v6);
 #elif defined(CONFIG_EPD_BOARD_REVISION_S2)
   epd_set_board(&epd_board_s2);
+#elif defined(CONFIG_EPD_BOARD_REVISION_V6_S3)
+  epd_set_board(&epd_board_s3);
 #else
   // Either the board should be set in menuconfig or the epd_set_board() must be called before epd_init()
   assert(epd_board != NULL);

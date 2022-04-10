@@ -54,7 +54,8 @@ menu "E-Paper Driver"
         
         config EPD_BOARD_REVISION_S2
             bool "epdiy S2"
-
+        config EPD_BOARD_REVISION_V6_S3
+            bool "epdiy S3. Only for ESP32-S3-DEVKITC-1-N8R2 experimental prototype"
         config EPD_BOARD_CUSTOM
             bool "Custom board"
     endchoice
@@ -65,6 +66,13 @@ menu "E-Paper Driver"
         help
             Absolute VCOM voltage in mV. Only supported on V6 or S2 boards.
         depends on EPD_BOARD_REVISION_S2
+        range 0 5110
+    config EPD_DRIVER_S3_VCOM
+        int "Absolute VCOM value for S3"
+        default 1560
+        help
+            Absolute VCOM voltage in mV. Only supported on V6 or S2 boards.
+        depends on EPD_BOARD_REVISION_V6_S3
         range 0 5110
     
     config EPD_DRIVER_V6_VCOM

@@ -18,6 +18,7 @@ set(app_sources "epd_driver.c"
                 "board/epd_board_v5.c"
                 "board/epd_board_v6.c"
                 "board/epd_board_v6_s2.c"
+                "board/epd_board_v6_s3.c"
 )
 
 # Find a way to exclude when it's an S2 board

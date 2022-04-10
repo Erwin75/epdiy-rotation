@@ -8,7 +8,7 @@ static esp_adc_cal_characteristics_t adc_chars;
 
 #define NUMBER_OF_SAMPLES 100
 
-#if CONFIG_IDF_TARGET_ESP32
+#if CONFIG_IDF_TARGET_ESP32 || CONFIG_IDF_TARGET_ESP32S3
   static int adc_bit_with = ADC_WIDTH_BIT_12;
 #else
   static int adc_bit_with = ADC_WIDTH_BIT_13;
