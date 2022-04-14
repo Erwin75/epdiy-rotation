@@ -33,7 +33,7 @@ static int v6_wait_for_interrupt(int timeout) __attribute__((unused));
 #define D0 GPIO_NUM_0
 
 /* TPS65185 5 control lines */
-#define TPS_PWRGOOD       GPIO_NUM_46
+#define TPS_PWRGOOD       GPIO_NUM_47
 #define TPS_WAKEUP        GPIO_NUM_18
 #define TPS_PWRUP         GPIO_NUM_16
 #define TPS_INTERRUPT     GPIO_NUM_11 // old  CFG_INTR
