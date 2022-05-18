@@ -9,8 +9,8 @@ set(app_sources "epd_driver.c"
                 "lut.c"
                 "board_specific.c"
 				"builtin_waveforms.c"
-                "i2s_data_bus.c"
-                
+                #"i2s_data_bus.c"
+                "i2s_data_bus_s2.c"
                 "rmt_pulse.c"
 				"highlevel.c"
                 "epd_temperature.c"
@@ -18,13 +18,17 @@ set(app_sources "epd_driver.c"
                 "board/epd_board_v5.c"
                 "board/epd_board_v6.c"
                 "board/epd_board_v6_s2.c"
-                "board/epd_board_v6_s3.c"
-)
+                
+
+#Removed temporarily
+#"board/epd_board_v6_s3.c"
+
 
 # Find a way to exclude when it's an S2 board
 #"board/epd_board_lilygo_t5_47.c"
 #"board/epd_board_v2_v3.c"
 #"board/epd_board_v4.c"
+)
 
 idf_component_register(SRCS ${app_sources} INCLUDE_DIRS "include" REQUIRES esp_adc_cal)
 

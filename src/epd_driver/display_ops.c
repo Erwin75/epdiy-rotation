@@ -1,7 +1,13 @@
 #include "display_ops.h"
 #include "esp_timer.h"
 #include "esp_log.h"
-#include "i2s_data_bus.h"
+// Define I2S output, in S2 there is no I2S1 and ESP32 needs it for 8 bit data-bus
+#if CONFIG_IDF_TARGET_ESP32S2
+  #include "i2s_data_bus_s2.h"
+#else
+  #include "i2s_data_bus.h"
+#endif
+
 #include "rmt_pulse.h"
 #include "epd_board.h"
 #include "freertos/FreeRTOS.h"
@@ -162,6 +168,7 @@ void epd_end_frame() {
 }
 
 void IRAM_ATTR epd_switch_buffer() { i2s_switch_buffer(); }
+
 uint8_t IRAM_ATTR *epd_get_current_buffer() {
   return (uint8_t *)i2s_get_current_buffer();
 };
