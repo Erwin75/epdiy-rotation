@@ -118,9 +118,6 @@ void IRAM_ATTR i2s_start_line_output() {
 }
 
 void i2s_gpio_attach(i2s_bus_config *cfg) {
-    // Setup IOMUX Register for I2S Clock
-  gpio_iomux_out(GPIO_NUM_18, FUNC_DAC_2_CLK_OUT3, false);
-
   gpio_num_t I2S_GPIO_BUS[] = {cfg->data_6, cfg->data_7, cfg->data_4,
                                cfg->data_5, cfg->data_2, cfg->data_3,
                                cfg->data_0, cfg->data_1};
@@ -141,6 +138,8 @@ void i2s_gpio_attach(i2s_bus_config *cfg) {
   gpio_hold_dis(cfg->clock);
   // Invert word select signal
   gpio_setup_out(cfg->clock, I2S0O_WS_OUT_IDX, true);
+  // Setup IOMUX Register for I2S Clock
+  gpio_iomux_out(GPIO_NUM_18, FUNC_DAC_2_CLK_OUT3, false);
 }
 
 void i2s_gpio_detach(i2s_bus_config *cfg) {
