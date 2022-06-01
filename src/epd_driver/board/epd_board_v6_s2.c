@@ -34,21 +34,21 @@ static int v6_wait_for_interrupt(int timeout) __attribute__((unused));
 
 /* TPS65185 5 control lines */
 #define TPS_PWRGOOD       GPIO_NUM_46
-#define TPS_WAKEUP        GPIO_NUM_18
+#define TPS_WAKEUP        GPIO_NUM_21 // DONE Should be rerouted in PCB from 18
 #define TPS_PWRUP         GPIO_NUM_16
 #define TPS_INTERRUPT     GPIO_NUM_11 // old  CFG_INTR
 #define TPS_VCOM_CTRL     GPIO_NUM_10
 
 /* EPD Control Lines */
 #define CKV GPIO_NUM_41
-#define STH GPIO_NUM_42
+#define STH GPIO_NUM_7                // Should be rerouted in PCB from 42
 #define EPD_STV  GPIO_NUM_15
 #define EPD_MODE GPIO_NUM_14
 #define EPD_OE   GPIO_NUM_13
 #define V4_LATCH_ENABLE GPIO_NUM_12
 
-/* Edges */
-#define CKH GPIO_NUM_21
+/* I2S Clock */
+#define CKH GPIO_NUM_18               // DONE CLK_OUT3 Should be rerouted in PCB from 21
 
 typedef struct {
     i2c_port_t port;
@@ -205,8 +205,6 @@ static void epd_board_set_ctrl(epd_ctrl_state_t *state, const epd_ctrl_state_t *
 }
 
 static void epd_board_poweron(epd_ctrl_state_t *state) {
-  i2s_gpio_attach(&i2s_config);
-
   epd_ctrl_state_t mask = {
     .ep_stv = true,
   };

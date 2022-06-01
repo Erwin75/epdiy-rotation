@@ -6,6 +6,7 @@
 #else
 #include "esp32/rom/lldesc.h"
 #endif
+#include <driver/gpio.h>
 #include "esp_heap_caps.h"
 #include "soc/i2s_reg.h"
 #include "soc/i2s_struct.h"
@@ -117,6 +118,9 @@ void IRAM_ATTR i2s_start_line_output() {
 }
 
 void i2s_gpio_attach(i2s_bus_config *cfg) {
+    // Setup IOMUX Register for I2S Clock
+  gpio_iomux_out(GPIO_NUM_18, FUNC_DAC_2_CLK_OUT3, false);
+
   gpio_num_t I2S_GPIO_BUS[] = {cfg->data_6, cfg->data_7, cfg->data_4,
                                cfg->data_5, cfg->data_2, cfg->data_3,
                                cfg->data_0, cfg->data_1};
@@ -130,6 +134,7 @@ void i2s_gpio_attach(i2s_bus_config *cfg) {
   // Setup and route GPIOS
   for (int x = 0; x < 8; x++) {
     gpio_setup_out(I2S_GPIO_BUS[x], signal_base + x, false);
+    printf("IO: %d routed to signal %d\n", I2S_GPIO_BUS[x], signal_base + x);
   }
 
   // Free CKH after wakeup
