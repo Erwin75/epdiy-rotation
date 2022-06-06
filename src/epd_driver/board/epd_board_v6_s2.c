@@ -181,7 +181,7 @@ static void epd_board_deinit() {
 }
 
 static void epd_board_set_ctrl(epd_ctrl_state_t *state, const epd_ctrl_state_t * const mask) {
-  uint8_t value = 0x00;
+
   if (state->ep_sth) {
     fast_gpio_set_hi(STH);
   } else {
@@ -189,9 +189,9 @@ static void epd_board_set_ctrl(epd_ctrl_state_t *state, const epd_ctrl_state_t *
   }
 
   if (mask->ep_output_enable || mask->ep_mode || mask->ep_stv) {
-    if (state->ep_output_enable) gpio_set_level(EPD_OE, 1);
-    if (state->ep_mode)          gpio_set_level(EPD_MODE, 1);
-    if (state->ep_stv)           gpio_set_level(EPD_STV, 1);
+    gpio_set_level(EPD_OE, state->ep_output_enable);
+    gpio_set_level(EPD_MODE, state->ep_mode);
+    gpio_set_level(EPD_STV, state->ep_stv);
     if (config_reg.pwrup)        gpio_set_level(TPS_PWRUP, 1);
     if (config_reg.vcom_ctrl)    gpio_set_level(TPS_VCOM_CTRL, 1);
     if (config_reg.wakeup)       gpio_set_level(TPS_WAKEUP, 1);
